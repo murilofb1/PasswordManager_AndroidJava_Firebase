@@ -46,6 +46,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -70,6 +71,8 @@ public class HomeView extends AppCompatActivity implements AdapterPasswords.OnRe
     private int listSize = 0;
     private boolean isLoaded = false;
 
+    private List<String> icons = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +80,23 @@ public class HomeView extends AppCompatActivity implements AdapterPasswords.OnRe
         getSupportActionBar().hide();
         loadList();
         UserModel.loadCurretUser();
+        loadUserIcons();
+    }
+
+    private void loadUserIcons() {
+        FirebaseHelper.getUserIconsReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()) {
+                    icons.add(item.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -137,7 +157,7 @@ public class HomeView extends AppCompatActivity implements AdapterPasswords.OnRe
     private void configureRecycler() {
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerPasswords.setLayoutManager(manager);
-        recyclerPasswords.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        recyclerPasswords.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerPasswords.setAdapter(adapterPasswords);
     }
 
@@ -248,29 +268,18 @@ public class HomeView extends AppCompatActivity implements AdapterPasswords.OnRe
                     public void onDismissed(Snackbar transientBottomBar, int event) {
                         super.onDismissed(transientBottomBar, event);
                         if (delete.get()) {
-                            FirebaseHelper.getUserIconsReference().addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    boolean haveIcon = false;
-                                    for (DataSnapshot item : snapshot.getChildren()) {
-                                        if (item.getKey() == password.getSite()) {
-                                            haveIcon = true;
-                                            break;
-                                        }
-                                    }
-                                    if (haveIcon) {
-                                        FirebaseHelper.getUserIconsReference().child(password.getSite()).child("beingUsed").setValue(false);
-                                    }
-                                    FirebaseHelper.deletePassword(password.getSite());
+                            Log.i("spinnerItens", "Deletou");
+                            boolean haveIcon = false;
+                            for (String item : icons) {
+                                if (password.getSite().equals(item)) {
+                                    haveIcon = true;
+                                    break;
                                 }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-
-
+                            }
+                            if (haveIcon) {
+                                FirebaseHelper.getUserIconsReference().child(password.getSite()).child("beingUsed").setValue(false);
+                            }
+                            FirebaseHelper.getUserPasswordsReference().child(password.getSite()).removeValue();
                         }
                     }
                 });

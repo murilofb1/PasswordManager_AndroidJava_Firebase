@@ -24,30 +24,36 @@ public class CadastrarSenhaViewModel extends Observable {
     private static DatabaseReference spinnerItensReference;
     private static Query spinnerItensQuery;
     public static final String SPINNER_LIST_ARG = "slArg";
-    private static boolean isLoaded = false;
 
     public ArrayList<WebsiteModel> getSpinnerPasswordList() {
         if (spinnerEventListener == null) {
-            //spinnerItensReference = FirebaseHelper.getUserIconsReference();
+            spinnerItensReference = FirebaseHelper.getUserIconsReference();
             spinnerItensQuery = FirebaseHelper.getUserIconsReference().orderByChild("beingUsed").equalTo(false);
-            spinnerEventListener = spinnerItensQuery.addValueEventListener(new ValueEventListener() {
+
+            spinnerItensReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.getValue() == null) {
-                        Log.i("spinnerStatus","null");
-                        if (!isLoaded) {
-                            FirebaseHelper.loadDefaultIcons();
-                            isLoaded = true;
-                        }
-                    } else {
-                        Log.i("spinnerStatus","notNull");
-                        isLoaded = true;
-                        modelsList.clear();
-                        for (DataSnapshot item : snapshot.getChildren()) {
-                            modelsList.add(item.getValue(WebsiteModel.class));
-                        }
-                        modelsList.add(new WebsiteModel("New item", "", ""));
+                        FirebaseHelper.loadDefaultIcons();
                     }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            spinnerEventListener = spinnerItensQuery.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    modelsList.clear();
+                    for (DataSnapshot item : snapshot.getChildren()) {
+                        modelsList.add(item.getValue(WebsiteModel.class));
+                    }
+                    modelsList.add(new WebsiteModel("New item", "", ""));
+
 
                     notifyChange(SPINNER_LIST_ARG);
                 }
@@ -59,7 +65,6 @@ public class CadastrarSenhaViewModel extends Observable {
             });
         }
 
-        //return spinnerPasswordList;
         return modelsList;
     }
 
