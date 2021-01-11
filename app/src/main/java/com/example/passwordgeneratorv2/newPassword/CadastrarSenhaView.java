@@ -27,6 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.passwordgeneratorv2.R;
 import com.example.passwordgeneratorv2.adapters.AdapterSpinnerSites;
+import com.example.passwordgeneratorv2.helpers.Base64H;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
 import com.example.passwordgeneratorv2.helpers.PassworGenerator;
 import com.example.passwordgeneratorv2.models.Password;
@@ -235,7 +236,7 @@ public class CadastrarSenhaView extends AppCompatActivity implements Observer {
                 // Botão Confirmar
             } else if (v.getId() == R.id.btn_confirm) {
                 WebsiteModel spinnerItem = (WebsiteModel) spinnerSiteSelected.getSelectedItem();
-                String newPsswd = edtSenhaGerada.getText().toString();
+                String newPsswd = Base64H.encode(edtSenhaGerada.getText().toString());
                 String newIconLink = spinnerItem.getIconLink();
                 String newSiteName = spinnerItem.getName();
                 String newSiteLink = edtNewSiteLink.getText().toString();

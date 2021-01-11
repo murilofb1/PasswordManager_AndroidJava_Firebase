@@ -106,6 +106,7 @@
     <!-- SiteInfo Dialog -->
     <string name="edt_password_dialog_title">Confirm alterations</string>
     <string name="edt_password_dialog_message">Are you sure that you want to edit this password</string>
+    <string name="unable_to_retrieve_your_data">Unable to retrieve your data :(</string>
 
 
 </resources>

@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.passwordgeneratorv2.R;
 import com.example.passwordgeneratorv2.helpers.ArrayHelper;
+import com.example.passwordgeneratorv2.helpers.Base64H;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
 import com.example.passwordgeneratorv2.home.HomeView;
 import com.example.passwordgeneratorv2.home.HomeViewModel;
@@ -73,10 +74,10 @@ public class AdapterPasswords extends RecyclerView.Adapter<AdapterPasswords.MyVi
         boolean visible = visiblePassword[position];
 
         if (visible) {
-            holder.txtPassword.setText(siteAtual.getPassword());
+            holder.txtPassword.setText(Base64H.decode(siteAtual.getPassword()));
             holder.imgBtnShowHidePassword.setImageResource(drawable.ic_password_invisible);
         } else {
-            holder.txtPassword.setText(maskedPassword(siteAtual.getPassword()));
+            holder.txtPassword.setText(maskedPassword(Base64H.decode(siteAtual.getPassword())));
             holder.imgBtnShowHidePassword.setImageResource(drawable.ic_password_visibility);
 
         }

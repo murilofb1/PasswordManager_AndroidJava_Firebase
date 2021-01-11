@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.passwordgeneratorv2.R;
+import com.example.passwordgeneratorv2.helpers.Base64H;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
 import com.example.passwordgeneratorv2.home.HomeView;
 import com.google.firebase.auth.FirebaseUser;
@@ -80,7 +81,7 @@ public class LoginFragment extends Fragment {
                         abrirCadastroFragment();
                         break;
                     case R.id.btn_logar:
-                        String ERROR_MSG = "Preencha ambos os campos primeiro";
+                        String ERROR_MSG = "Fill all the fields first";
                         String emailLogin = edtEmailLogin.getText().toString();
                         String senhaLogin = edtSenhaLogin.getText().toString();
 
@@ -88,13 +89,11 @@ public class LoginFragment extends Fragment {
                             Toast.makeText(getContext(), ERROR_MSG, Toast.LENGTH_SHORT).show();
                         } else {
                             if (checkKeepLogged.isChecked()) {
-                                Log.i("AppLog", "keepLogin marcado");
                                 keepLogin = true;
                             } else {
-                                Log.i("AppLog", "keepLogin desmarcado");
                                 keepLogin = false;
                             }
-                            FirebaseHelper.userLogin(emailLogin, senhaLogin, getActivity());
+                            FirebaseHelper.userLogin(emailLogin, Base64H.encode(senhaLogin), getActivity());
                         }
                         break;
                     case R.id.btnForgotPassword:
@@ -113,21 +112,21 @@ public class LoginFragment extends Fragment {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         editText.setLayoutParams(layoutParams);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("Insira seu email para que possamos lhe mandar um link para resetar sua senha");
-        builder.setPositiveButton("Enviar", (dialog, which) -> {
+        builder.setMessage("We gonna send you a reset password email");
+        builder.setPositiveButton("Send", (dialog, which) -> {
             String email = editText.getText().toString();
             if (!email.isEmpty()) {
                 FirebaseHelper.getFirebaseAuth().sendPasswordResetEmail(email)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getContext(), "Um email de redefinição de senha será enviado para você", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "The e-mail will arrive in a few seconds", Toast.LENGTH_SHORT).show();
                             }
                         });
             } else {
-                Toast.makeText(getContext(), "Preencha o campo de email primeiro", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Empty e-mail", Toast.LENGTH_SHORT).show();
             }
         });
-        builder.setNegativeButton("Cancelar", null);
+        builder.setNegativeButton("Cancel", null);
         builder.setView(editText);
         builder.show();
     }

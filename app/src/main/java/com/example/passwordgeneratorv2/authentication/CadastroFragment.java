@@ -5,14 +5,17 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.passwordgeneratorv2.R;
+import com.example.passwordgeneratorv2.helpers.Base64H;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
 import com.example.passwordgeneratorv2.models.UserModel;
 
@@ -63,25 +66,21 @@ public class CadastroFragment extends Fragment {
             if (v.getId() == R.id.btn_abrir_login) {
                 abrirLoginFragment();
             } else if (v.getId() == R.id.btnSignUp) {
-                Log.i("AppLog", "click SIgnUp");
                 String strNewUserName = edtNewUserName.getText().toString();
                 String strNewUserEmail = edtNewUserEmail.getText().toString();
                 String strNewUserPassword = edtNewUserPassword.getText().toString();
                 String strNewUserPassword2 = edtNewUserPassword2.getText().toString();
-                if (!strNewUserName.isEmpty() || !strNewUserEmail.isEmpty() || !strNewUserPassword.isEmpty() || !strNewUserPassword2.isEmpty()) {
-                    Log.i("AppLog", "campos checados");
+                if (!strNewUserName.isEmpty() && !strNewUserEmail.isEmpty() && !strNewUserPassword.isEmpty() && !strNewUserPassword2.isEmpty()) {
                     if (strNewUserPassword.equals(strNewUserPassword2)) {
-                        Log.i("AppLog", "senhas batem");
+                        strNewUserPassword = Base64H.encode(strNewUserPassword);
                         UserModel userModel = new UserModel(strNewUserName, strNewUserEmail, strNewUserPassword);
                         FirebaseHelper.registerUser(userModel, this.getActivity());
-
                     } else {
-                        Log.i("AppLog", "senhas nao batem");
+                        Toast.makeText(getActivity(), "The passwords don't match", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Log.i("AppLog", "algum campo vazio");
+                    Toast.makeText(getActivity(), "Fill all the fields first", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
         };

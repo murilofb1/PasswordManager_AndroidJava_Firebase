@@ -22,12 +22,14 @@ import androidx.biometric.BiometricPrompt;
 import com.example.passwordgeneratorv2.R;
 import com.example.passwordgeneratorv2.adapters.AdapterPasswords;
 import com.example.passwordgeneratorv2.authentication.AuthenticationView;
+import com.example.passwordgeneratorv2.helpers.Base64H;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
 import com.example.passwordgeneratorv2.models.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Base64;
 import java.util.concurrent.Executor;
 
 
@@ -66,25 +68,23 @@ public class AccountInfo extends AppCompatActivity {
     }
 
     private void initComponents() {
-        //TextView
         btnSettingsUserName = findViewById(R.id.btnSettingsUserName);
         btnSettingsUserEmail = findViewById(R.id.btnSettingsUserEmail);
         btnSettingsUserPassword = findViewById(R.id.btnSettingsUserPassword);
-        //Button
         btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
     }
 
     private void setDefaultValues() {
 
         if (userModel == null) {
-            btnSettingsUserName.setText("Não foi possível carregar os dados do usuário");
+            setContentView(R.layout.user_data_error);
         } else {
             btnSettingsUserName.setText(userModel.getName());
             btnSettingsUserEmail.setText(userModel.getEmail());
             if (!AdapterPasswords.isUnlocked()) {
                 btnSettingsUserPassword.setText(AdapterPasswords.maskedPassword(userModel.getPassword()));
             } else {
-                btnSettingsUserPassword.setText(userModel.getPassword());
+                btnSettingsUserPassword.setText(Base64H.decode(userModel.getPassword()));
 
             }
 
@@ -132,9 +132,9 @@ public class AccountInfo extends AppCompatActivity {
                 if (editText.getText().toString().equals("")) {
                     Toast.makeText(this, "Unsaved changes, the password can't be empty", Toast.LENGTH_SHORT).show();
                 } else {
-                    FirebaseHelper.editPassword(editText.getText().toString());
+                    FirebaseHelper.editPassword(Base64H.encode(editText.getText().toString()));
                     btnSettingsUserPassword.setText(editText.getText().toString());
-                    UserModel.updateUserPassword(editText.getText().toString());
+                    UserModel.updateUserPassword(Base64H.encode(editText.getText().toString()));
                 }
             } else if (editField == DIALOG_EDIT_NAME) {
                 if (editText.getText().toString().equals("")) {

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.passwordgeneratorv2.R;
+import com.example.passwordgeneratorv2.helpers.Base64H;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
 import com.example.passwordgeneratorv2.models.Password;
 import com.github.clans.fab.FloatingActionButton;
@@ -66,7 +68,7 @@ public class EditPasswordView extends AppCompatActivity {
         }
 
         edtSiteName.setText(originalPsswd.getSite());
-        edtPassword.setText(originalPsswd.getPassword());
+        edtPassword.setText(Base64H.decode(originalPsswd.getPassword()));
         edtSiteLink.setText(originalPsswd.getSiteLink());
     }
 
@@ -112,7 +114,7 @@ public class EditPasswordView extends AppCompatActivity {
                     originalReference.child("iconLink").setValue(originalPsswd.getIconLink());
                 }
             }
-            originalReference.child("password").setValue(edtPassword.getText().toString());
+            originalReference.child("password").setValue(Base64H.encode(edtPassword.getText().toString()));
             originalReference.child("site").setValue(edtSiteName.getText().toString());
             originalReference.child("siteLink").setValue(edtSiteLink.getText().toString());
             if (selecImageUri != null) {

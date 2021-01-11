@@ -33,6 +33,7 @@ import com.bumptech.glide.Glide;
 import com.example.passwordgeneratorv2.R;
 import com.example.passwordgeneratorv2.authentication.LoginFragment;
 import com.example.passwordgeneratorv2.editPassword.EditPasswordView;
+import com.example.passwordgeneratorv2.helpers.Base64H;
 import com.example.passwordgeneratorv2.models.Password;
 import com.example.passwordgeneratorv2.models.UserModel;
 import com.example.passwordgeneratorv2.newPassword.CadastrarSenhaView;
@@ -300,7 +301,7 @@ public class HomeView extends AppCompatActivity implements AdapterPasswords.OnRe
             psswdInfoFav.setImageResource(R.drawable.ic_not_favorite);
         }
         psswdInfoSiteName.setText(password.getSite());
-        psswdInfoPassword.setText(password.getPassword());
+        psswdInfoPassword.setText(Base64H.decode(password.getPassword()));
         if (password.getIconLink().equals("")) {
             Glide.with(passwordInfoView).load(R.drawable.default_image).into(psswdInfoIcon);
         } else {
