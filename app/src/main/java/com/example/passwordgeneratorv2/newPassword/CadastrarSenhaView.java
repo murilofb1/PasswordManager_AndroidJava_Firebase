@@ -265,7 +265,9 @@ public class CadastrarSenhaView extends AppCompatActivity implements Observer {
         builder.setTitle("New item");
         builder.setView(dialogLayout);
         builder.setPositiveButton("Confirm", (dialog, which) -> {
-            FirebaseHelper.uploadSpinnerImage(edtCustomSite.getText().toString(), customImageUri, this);
+            if (customImageUri != null) {
+                FirebaseHelper.uploadSpinnerImage(edtCustomSite.getText().toString(), customImageUri, this);
+            }
         });
         builder.setNegativeButton("Cancel", null);
         builder.create();

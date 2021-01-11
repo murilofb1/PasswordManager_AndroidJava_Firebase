@@ -61,7 +61,10 @@ public class EditPasswordView extends AppCompatActivity {
 
     private void setDefaultValues() {
         originalPsswd = (Password) getIntent().getSerializableExtra("extraPassword");
-        Glide.with(this).load(originalPsswd.getIconLink()).into(imgSiteIcon);
+        if (!originalPsswd.getIconLink().equals("")) {
+            Glide.with(this).load(originalPsswd.getIconLink()).into(imgSiteIcon);
+        }
+
         edtSiteName.setText(originalPsswd.getSite());
         edtPassword.setText(originalPsswd.getPassword());
         edtSiteLink.setText(originalPsswd.getSiteLink());
@@ -70,10 +73,9 @@ public class EditPasswordView extends AppCompatActivity {
     private boolean validatedEditText() {
         String strSiteName = edtSiteName.getText().toString();
         String strPassword = edtPassword.getText().toString();
-        String strSiteLink = edtSiteLink.getText().toString();
 
 
-        if (strPassword.equals("") || strSiteName.equals("") || strSiteLink.equals("")) {
+        if (strPassword.equals("") || strSiteName.equals("")) {
             return false;
         } else {
             return true;
