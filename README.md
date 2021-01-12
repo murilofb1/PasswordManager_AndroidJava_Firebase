@@ -1,5 +1,5 @@
 # Password Manager
-<img src ="/app_prints/logo.jpg" heigth ="40%" width="40%" style= "float: center">
+<img align="center"  heigth ="40%" width="40%" src ="/app_prints/logo.jpg">
 
 <p style="text-align: justify ">  
 Passwordu Generatoru é um app para android desenvolvido na linguagem Java que serve tanto para generenciar quanto para gerar novas senhas para sites, serviços e etc. </p>
@@ -14,8 +14,7 @@ Passwordu Generatoru é um app para android desenvolvido na linguagem Java que s
 
 ## Imagens do app
 <p>
-<img src = "https://github.com/murilofb1/PasswordManager_AndroidJava_Firebase/blob/main/app_prints/Screenshot_20210111-142852_Settings.jpg" heigth ="30%" width="30%">
-Todas as informações e alterações do app estão protegidas através da biometria ou senha do celular
+<img src = "https://github.com/murilofb1/PasswordManager_AndroidJava_Firebase/blob/main/app_prints/Screenshot_20210111-142852_Settings.jpg" heigth ="30%" width="30%">Todas as informações e alterações do app estão protegidas através da biometria ou senha do celular
 </p>
 <p>
 <img src = "https://github.com/murilofb1/PasswordManager_AndroidJava_Firebase/blob/main/app_prints/Screenshot_20210111-152051782.jpg" heigth ="30%" width="30%">
