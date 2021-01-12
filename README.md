@@ -6,12 +6,12 @@
 Passwordu Generatoru é um app para android desenvolvido na linguagem Java que serve tanto para generenciar quanto para gerar novas senhas para sites, serviços e etc. </p>
 
 ## Bibliotecas e API's utilizadas
-* [Firebase]("https://firebase.google.com/")
+* [Firebase](https://firebase.google.com/)
     * Firebase Authentication - Para cadastrar o usuário e autenticá-lo
     * Realtime Database - Armazenamento das informações do usuário
     * Firebase Storage - Armazenamento das imagens
-* [Glide]("https://github.com/bumptech/glide") - Para carregar as imagens do storage para o app.
-* [Android About Page]("https://github.com/medyo/android-about-page") - Para criar uma tela com mais informações sobre mim e minhas redes sociais.
+* [Glide](https://github.com/bumptech/glide) - Para carregar as imagens do storage para o app.
+* [Android About Page](https://github.com/medyo/android-about-page) - Para criar uma tela com mais informações sobre mim e minhas redes sociais.
 
 ## Imagens do app
 
