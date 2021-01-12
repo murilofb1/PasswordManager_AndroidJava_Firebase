@@ -13,7 +13,7 @@ Passwordu Generatoru é um app para android desenvolvido na linguagem Java que s
 * [Android About Page]("https://github.com/medyo/android-about-page") - Para criar uma tela com mais informações sobre mim e minhas redes sociais.
 
 ## Imagens do app
-<img src = "https://github.com/murilofb1/PasswordManager_AndroidJava_Firebase/blob/main/app_prints/Screenshot_20210111-142852_Settings.jpg" heigth ="50%" width="50%">
+<img src = "https://github.com/murilofb1/PasswordManager_AndroidJava_Firebase/blob/main/app_prints/Screenshot_20210111-142852_Settings.jpg" heigth ="20%" width="20%">
 Todas as informações e alterações do app estão protegidas através da biometria ou senha do celular
 <img src = "https://github.com/murilofb1/PasswordManager_AndroidJava_Firebase/blob/main/app_prints/Screenshot_20210111-152051782.jpg">
 O usuário pode selecionar entre um dos sites já pré cadastrados, ou então cadastrar um novo, escolhendo ícone e link personalizados.
