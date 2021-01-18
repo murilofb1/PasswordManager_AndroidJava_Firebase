@@ -251,9 +251,13 @@ public class HomeView extends AppCompatActivity implements AdapterPasswords.OnRe
                 if (password.getSiteLink().equals("")) {
                     Toast.makeText(this, "No link assigned", Toast.LENGTH_SHORT).show();
                 } else {
-                    Intent openSite = new Intent(Intent.ACTION_VIEW);
-                    openSite.setData(Uri.parse(password.getSiteLink()));
-                    startActivity(openSite);
+                    try {
+                        Intent openSite = new Intent(Intent.ACTION_VIEW);
+                        openSite.setData(Uri.parse(password.getSiteLink()));
+                        startActivity(openSite);
+                    } catch (Exception e) {
+                        Toast.makeText(this, "Unable to open your site", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             } else if (v.getId() == R.id.psswdInfoDelete) {
