@@ -29,6 +29,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.sql.Timestamp;
+
 public class FirebaseHelper {
     private static FirebaseAuth auth;
     private static StorageReference rootStorageReference;
@@ -155,8 +157,11 @@ public class FirebaseHelper {
         });
     }
 
-    public static void deletePassword(String siteName) {
-        getUserPasswordsReference().child(siteName).removeValue();
+    public static void deletePassword(Password password) {
+        getUserDatabaseReference().child("deletedPasswords").child(password.getSite()).setValue(password);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        long deleteTime = timestamp.getTime() + 2629800000L;
+        getUserDatabaseReference().child("deletedPasswords").child(password.getSite()).child("deletedTime").setValue(deleteTime);
     }
 
     public static void deleteUser(Activity activity) {
@@ -197,7 +202,21 @@ public class FirebaseHelper {
                 .setValue(password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        getUserIconsReference().child(password.getSite()).child("beingUsed").setValue(true);
+                        getUserIconsReference().child(password.getSite()).child("beingUsed").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.getValue() != null) {
+                                    Log.i("FirebaseH", "not null Reference: " + snapshot.getValue());
+                                    getUserIconsReference().child(password.getSite()).child("beingUsed").setValue(true);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                         Toast.makeText(activity, "Password registered", Toast.LENGTH_SHORT).show();
                         activity.finish();
                     } else {

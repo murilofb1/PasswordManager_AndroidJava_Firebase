@@ -81,7 +81,8 @@
         Meu nome é Murilo Francisco Bento, atualmente tenho 21 anos e estou cursando Sistemas de Informação. Esse é meu primeiro app que fiz como projeto pessoal.
         Caso queira me conhecer mais basta acessar uma de minhas redes sociais abaixo.
     </string>
-
+    <!-- DeletedPasswords -->
+    <string name="activity_deleted_passwords_title">Deleted Passwords</string>
     <!-- SiteInfo Dialog -->
     <string name="go_to_site"><u>Go to site</u></string>
     <string name="hint_site_link">Site Link</string>

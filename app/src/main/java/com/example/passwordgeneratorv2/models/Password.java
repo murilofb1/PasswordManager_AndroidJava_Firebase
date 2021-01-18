@@ -2,6 +2,8 @@ package com.example.passwordgeneratorv2.models;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -11,6 +13,8 @@ public class Password implements Serializable {
     private String iconLink;
     private String siteLink;
     private boolean favorite = false;
+    @Exclude
+    long deletedTime = 0;
 
     public Password() {
     }
@@ -51,5 +55,7 @@ public class Password implements Serializable {
         return site;
     }
 
-
+    public long getDeletedTime() {
+        return deletedTime;
+    }
 }

@@ -15,6 +15,7 @@ import com.example.passwordgeneratorv2.R;
 import com.example.passwordgeneratorv2.authentication.AuthenticationView;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
 import com.example.passwordgeneratorv2.settings.options.AccountInfo;
+import com.example.passwordgeneratorv2.settings.options.DeletedPasswords;
 import com.example.passwordgeneratorv2.settings.options.MyAboutPage;
 
 
@@ -23,6 +24,7 @@ public class SettingsView extends AppCompatActivity {
     private Button btnDataInfo;
     private Button btnLogOut;
     private Button btnAboutPage;
+    private Button btnDeletedPasswords;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class SettingsView extends AppCompatActivity {
         btnDataInfo = findViewById(R.id.btnDataInfo);
         btnLogOut = findViewById(R.id.btnLogOut);
         btnAboutPage = findViewById(R.id.btnAboutPage);
+        btnDeletedPasswords = findViewById(R.id.btnDeletedPasswords);
     }
 
     private void setOnClick() {
@@ -59,10 +62,13 @@ public class SettingsView extends AppCompatActivity {
                 FirebaseHelper.signOutUser();
                 startActivity(new Intent(getApplicationContext(), AuthenticationView.class));
                 finishAffinity();
+            } else if (v.getId() == R.id.btnDeletedPasswords) {
+                startActivity(new Intent(getApplicationContext(), DeletedPasswords.class));
             }
         };
         btnDataInfo.setOnClickListener(clickListener);
         btnLogOut.setOnClickListener(clickListener);
         btnAboutPage.setOnClickListener(clickListener);
+        btnDeletedPasswords.setOnClickListener(clickListener);
     }
 }

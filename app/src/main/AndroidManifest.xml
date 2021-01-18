@@ -46,6 +46,10 @@
             android:label="@string/title_activity_developer_info"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.PasswordGeneratorv2" />
+        <activity
+            android:name=".settings.options.DeletedPasswords"
+            android:label="@string/activity_deleted_passwords_title"
+            android:theme="@style/Theme.PasswordGeneratorv2" />
 
     </application>
 

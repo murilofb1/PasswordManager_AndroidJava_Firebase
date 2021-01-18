@@ -47,6 +47,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -81,14 +82,36 @@ public class HomeView extends AppCompatActivity implements AdapterPasswords.OnRe
         getSupportActionBar().hide();
         loadList();
         UserModel.loadCurretUser();
-        loadUserIcons();
+        finalDelete();
+    }
+
+    private void finalDelete() {
+        FirebaseHelper.getUserDatabaseReference().child("deletedPasswords").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()) {
+                    Password password = item.getValue(Password.class);
+                    Timestamp timeNow = new Timestamp(System.currentTimeMillis());
+                    if (timeNow.getTime() >= password.getDeletedTime()) {
+                        FirebaseHelper.getUserDatabaseReference().child("deletedPasswords").child(password.getSite()).removeValue();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void loadUserIcons() {
         FirebaseHelper.getUserIconsReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                icons.clear();
                 for (DataSnapshot item : snapshot.getChildren()) {
+                    Log.i("FirebaseH", item.getKey() + " ADDED");
                     icons.add(item.getKey());
                 }
             }
@@ -103,6 +126,7 @@ public class HomeView extends AppCompatActivity implements AdapterPasswords.OnRe
     @Override
     protected void onStart() {
         super.onStart();
+        loadUserIcons();
         if (menuItemLockUnlock != null && AdapterPasswords.isUnlocked()) {
             menuItemLockUnlock.setIcon(R.drawable.ic_open_padlock);
         } else if (menuItemLockUnlock != null && !AdapterPasswords.isUnlocked()) {
@@ -273,7 +297,7 @@ public class HomeView extends AppCompatActivity implements AdapterPasswords.OnRe
                     public void onDismissed(Snackbar transientBottomBar, int event) {
                         super.onDismissed(transientBottomBar, event);
                         if (delete.get()) {
-                            Log.i("spinnerItens", "Deletou");
+                            FirebaseHelper.deletePassword(password);
                             boolean haveIcon = false;
                             for (String item : icons) {
                                 if (password.getSite().equals(item)) {
