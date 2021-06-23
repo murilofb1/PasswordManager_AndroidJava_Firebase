@@ -108,7 +108,9 @@ public class EditPasswordView extends AppCompatActivity {
             DatabaseReference originalReference = FirebaseHelper.getUserPasswordsReference().child(originalPsswd.getSite());
             if (!originalPsswd.getSite().equals(edtSiteName.getText().toString())) {
                 originalReference.removeValue();
-                FirebaseHelper.getUserIconsReference().child(originalPsswd.getSite()).child("beingUsed").setValue(false);
+                if (!originalPsswd.getSite().equals("New item")){
+                    FirebaseHelper.getUserIconsReference().child(originalPsswd.getSite()).child("beingUsed").setValue(false);
+                }
                 originalReference = FirebaseHelper.getUserPasswordsReference().child(edtSiteName.getText().toString());
                 if (selecImageUri == null) {
                     originalReference.child("iconLink").setValue(originalPsswd.getIconLink());

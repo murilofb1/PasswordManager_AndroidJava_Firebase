@@ -8,7 +8,6 @@ import android.os.Build;
 
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.security.identity.EphemeralPublicKeyNotFoundException;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,17 +19,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.passwordgeneratorv2.R;
 import com.example.passwordgeneratorv2.helpers.ArrayHelper;
 import com.example.passwordgeneratorv2.helpers.Base64H;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
-import com.example.passwordgeneratorv2.home.HomeView;
-import com.example.passwordgeneratorv2.home.HomeViewModel;
+import com.example.passwordgeneratorv2.home.HomeActivity;
 import com.example.passwordgeneratorv2.models.Password;
 
 import org.jetbrains.annotations.NotNull;
@@ -162,7 +157,7 @@ public class AdapterPasswords extends RecyclerView.Adapter<AdapterPasswords.MyVi
                 }
 
             } else {
-                HomeView.openBiometricAuth();
+                HomeActivity.openBiometricAuth();
 
             }
 

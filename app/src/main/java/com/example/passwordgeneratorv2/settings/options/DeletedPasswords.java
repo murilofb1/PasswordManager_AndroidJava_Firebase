@@ -58,6 +58,7 @@ public class DeletedPasswords extends AppCompatActivity implements Observer {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toast = new Toast(this);
         deletedHelper = new DeletedPasswordsHelper();
+
         deletedHelper.addObserver(this);
         deletedHelper.loadList();
         //Configuring Recycler

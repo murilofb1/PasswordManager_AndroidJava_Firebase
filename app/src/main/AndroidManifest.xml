@@ -12,9 +12,10 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/password_generator_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PasswordGeneratorv2">
+        android:theme="@style/MainTheme">
         <activity
-            android:name=".authentication.AuthenticationView"
+            android:name=".authentication.AuthenticationActivity"
+            android:theme="@style/MainTheme.AuthActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".home.HomeView"
+            android:name=".home.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".editPassword.EditPasswordView"
@@ -31,7 +32,7 @@
             android:name=".newPassword.CadastrarSenhaView"
             android:label="@string/title_activity_cadastrar_senha"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.PasswordGeneratorv2.NoActionBar" />
+            android:theme="@style/MainTheme.NoActionBar" />
         <activity
             android:name=".settings.SettingsView"
             android:label="@string/title_activity_settings"
@@ -39,17 +40,14 @@
         <activity
             android:name=".settings.options.AccountInfo"
             android:label="@string/title_activity_account_info"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.PasswordGeneratorv2" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".settings.options.MyAboutPage"
             android:label="@string/title_activity_developer_info"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.PasswordGeneratorv2" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".settings.options.DeletedPasswords"
-            android:label="@string/activity_deleted_passwords_title"
-            android:theme="@style/Theme.PasswordGeneratorv2" />
+            android:label="@string/activity_deleted_passwords_title" />
 
     </application>
 

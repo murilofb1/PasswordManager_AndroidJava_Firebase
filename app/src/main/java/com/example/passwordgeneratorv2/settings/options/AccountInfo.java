@@ -1,16 +1,11 @@
 package com.example.passwordgeneratorv2.settings.options;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,15 +16,10 @@ import androidx.biometric.BiometricPrompt;
 
 import com.example.passwordgeneratorv2.R;
 import com.example.passwordgeneratorv2.adapters.AdapterPasswords;
-import com.example.passwordgeneratorv2.authentication.AuthenticationView;
 import com.example.passwordgeneratorv2.helpers.Base64H;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
 import com.example.passwordgeneratorv2.models.UserModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Base64;
 import java.util.concurrent.Executor;
 
 

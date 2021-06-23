@@ -2,7 +2,6 @@ package com.example.passwordgeneratorv2.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -56,7 +55,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
-public class HomeView extends AppCompatActivity implements AdapterPasswords.OnRecyclerItemClick, Observer {
+public class HomeActivity extends AppCompatActivity implements AdapterPasswords.OnRecyclerItemClick, Observer {
 
     private FloatingActionButton fabAdicionarSenha;
     private RecyclerView recyclerPasswords;
@@ -152,7 +151,7 @@ public class HomeView extends AppCompatActivity implements AdapterPasswords.OnRe
         //Executor
         executor = ContextCompat.getMainExecutor(this);
         //BiometricPrompt
-        biometricPrompt = new BiometricPrompt(HomeView.this,
+        biometricPrompt = new BiometricPrompt(HomeActivity.this,
                 executor, new BiometricPrompt.AuthenticationCallback() {
             @Override
             public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
@@ -200,15 +199,6 @@ public class HomeView extends AppCompatActivity implements AdapterPasswords.OnRe
             }
         };
         fabAdicionarSenha.setOnClickListener(clickListener);
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (!LoginFragment.keepLogged()) {
-            FirebaseAuth.getInstance().signOut();
-
-        }
-        super.onDestroy();
     }
 
     @Override

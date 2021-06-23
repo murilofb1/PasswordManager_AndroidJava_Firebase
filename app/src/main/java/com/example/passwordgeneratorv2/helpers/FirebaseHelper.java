@@ -4,19 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
-import android.webkit.WebSettings;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 
-import com.example.passwordgeneratorv2.authentication.AuthenticationView;
-import com.example.passwordgeneratorv2.home.HomeView;
+import com.example.passwordgeneratorv2.authentication.AuthenticationActivity;
+import com.example.passwordgeneratorv2.home.HomeActivity;
 import com.example.passwordgeneratorv2.models.Password;
 import com.example.passwordgeneratorv2.models.UserModel;
 import com.example.passwordgeneratorv2.models.WebsiteModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.sql.Timestamp;
 
@@ -62,7 +58,6 @@ public class FirebaseHelper {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             rootReference = FirebaseDatabase.getInstance().getReference();
             rootReference.keepSynced(true);
-
         }
         return rootReference;
     }
@@ -91,7 +86,6 @@ public class FirebaseHelper {
                     WebsiteModel model = item.getValue(WebsiteModel.class);
                     getUserIconsReference().child(model.getName()).setValue(model);
                 }
-
             }
 
             @Override
@@ -117,38 +111,13 @@ public class FirebaseHelper {
         return dataReference;
     }
 
-    private static boolean homeOpenned = false;
-
-    public static void setHomeOpenned(boolean homeOpenned) {
-        FirebaseHelper.homeOpenned = homeOpenned;
-    }
-
-    // passar tabmém a activity para poder fechar a mesma quando o login for bem sucedido
-    public static void userLogin(String email, String password, Activity activity) {
-        final String FAILURE_MSG = "Error on logging in";
-        getFirebaseAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                if (!homeOpenned) {
-                    activity.startActivity(new Intent(activity.getApplicationContext(), HomeView.class));
-                    activity.finish();
-                    homeOpenned = true;
-                }
-
-            } else {
-                Toast.makeText(activity, FAILURE_MSG, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-    }
-
     public static void registerUser(UserModel userModel, Activity activity) {
         getFirebaseAuth().createUserWithEmailAndPassword(userModel.getEmail(), userModel.getPassword()).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 String[] separatedName = userModel.getName().split(" ");
                 Toast.makeText(activity, "Welcome! " + separatedName[0], Toast.LENGTH_SHORT).show();
                 getUserDataReference().setValue(userModel);
-                Intent i = new Intent(activity.getApplicationContext(), HomeView.class);
+                Intent i = new Intent(activity.getApplicationContext(), HomeActivity.class);
                 activity.startActivity(i);
                 activity.finish();
             } else {
@@ -176,7 +145,7 @@ public class FirebaseHelper {
                 FirebaseHelper.getFirebaseAuth().getCurrentUser().delete().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(activity, "Your account is now deleted", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(activity.getApplicationContext(), AuthenticationView.class);
+                        Intent i = new Intent(activity.getApplicationContext(), AuthenticationActivity.class);
                         activity.startActivity(i);
                         activity.finishAffinity();
                         Log.i("deleteStatus", "success");

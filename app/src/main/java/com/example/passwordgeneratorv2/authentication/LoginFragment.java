@@ -1,112 +1,69 @@
 package com.example.passwordgeneratorv2.authentication;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.passwordgeneratorv2.R;
-import com.example.passwordgeneratorv2.helpers.Base64H;
-import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
-import com.example.passwordgeneratorv2.home.HomeView;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.passwordgeneratorv2.databinding.FragmentLoginBinding;
+import com.example.passwordgeneratorv2.helpers.ToastH;
+import com.example.passwordgeneratorv2.home.HomeActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 
 public class LoginFragment extends Fragment {
-
-    private Button btnAbrirCadastro;
-    private Button btnLogar;
-    private Button btnForgotPassword;
-    private EditText edtEmailLogin;
-    private EditText edtSenhaLogin;
-    private CheckBox checkKeepLogged;
-    private static boolean keepLogin = true;
-
 
     public LoginFragment() {
         // Required empty public constructor
     }
 
+    private FragmentLoginBinding binding;
+    private LoginViewModel model;
+    private ToastH toastH;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-        setFindViewbyID(view);
+        binding = FragmentLoginBinding.inflate(inflater, container, false);
+        model = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
+        addObservers();
+        toastH = new ToastH(getActivity());
         setClickListener();
-        FirebaseHelper.setHomeOpenned(false);
-        return view;
-
+        return binding.getRoot();
     }
 
-    private void setFindViewbyID(View view) {
-        // Button
-        btnAbrirCadastro = view.findViewById(R.id.btn_abrir_cadastro);
-        btnLogar = view.findViewById(R.id.btn_logar);
-        btnForgotPassword = view.findViewById(R.id.btnForgotPassword);
-
-        //EditText
-        edtEmailLogin = view.findViewById(R.id.edt_email_login);
-        edtSenhaLogin = view.findViewById(R.id.edt_senha_login);
-        //CheckBox
-        checkKeepLogged = view.findViewById(R.id.checkKeepLogged);
-    }
-
-    private void abrirCadastroFragment() {
-        CadastroFragment cadastroFragment = new CadastroFragment();
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frameAuthActivity, cadastroFragment);
-        transaction.commit();
+    private void addObservers() {
+        model.getToastMessage().observe(getViewLifecycleOwner(), it -> {
+            if (it != null) toastH.showToast(it);
+        });
+        model.wasLoginSuccessful().observe(getViewLifecycleOwner(), it -> openHomeActivity());
     }
 
     private void setClickListener() {
-        View.OnClickListener clickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.btn_abrir_cadastro:
-                        abrirCadastroFragment();
-                        break;
-                    case R.id.btn_logar:
-                        String ERROR_MSG = "Fill all the fields first";
-                        String emailLogin = edtEmailLogin.getText().toString();
-                        String senhaLogin = edtSenhaLogin.getText().toString();
-
-                        if (emailLogin.isEmpty() || senhaLogin.isEmpty()) {
-                            Toast.makeText(getContext(), ERROR_MSG, Toast.LENGTH_SHORT).show();
-                        } else {
-                            if (checkKeepLogged.isChecked()) {
-                                keepLogin = true;
-                            } else {
-                                keepLogin = false;
-                            }
-                            FirebaseHelper.userLogin(emailLogin, Base64H.encode(senhaLogin), getActivity());
-                        }
-                        break;
-                    case R.id.btnForgotPassword:
-                        openDialog();
-                        break;
-                }
-            }
-        };
-        btnAbrirCadastro.setOnClickListener(clickListener);
-        btnLogar.setOnClickListener(clickListener);
-        btnForgotPassword.setOnClickListener(clickListener);
+        binding.btnOpenRegister.setOnClickListener(v -> {
+            openRegisterFragment();
+        });
+        binding.btnLogin.setOnClickListener(v -> {
+            String email = binding.edtLoginEmail.getText().toString();
+            String password = binding.edtLoginPassword.getText().toString();
+            model.login(email, password);
+        });
+        binding.btnForgotPassword.setOnClickListener(v -> {
+            //TO BE IMPLEMENTED
+        });
     }
 
+/*
+//RESET PASSWORD DIALOG
     private void openDialog() {
         EditText editText = new EditText(getContext());
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -130,8 +87,18 @@ public class LoginFragment extends Fragment {
         builder.setView(editText);
         builder.show();
     }
+ */
 
-    public static boolean keepLogged() {
-        return keepLogin;
+    private void openHomeActivity() {
+        startActivity(new Intent(getContext(), HomeActivity.class));
+        getActivity().finish();
     }
+
+    private void openRegisterFragment() {
+        RegisterFragment registerFragment = new RegisterFragment();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frameAuthActivity, registerFragment);
+        transaction.commit();
+    }
+
 }

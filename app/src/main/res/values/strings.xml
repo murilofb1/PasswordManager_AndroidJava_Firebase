@@ -1,6 +1,12 @@
 <resources>
+    <string name="edt_text_all_empty">"Fill all the fields first"</string>
+    <string name="edt_text_password_empty">"Fill your password first"</string>
+    <string name="edt_text_email_empty">"Fill your e-mail first"</string>
+    <string name="login_error_generic">"Error on logging in"</string>
+
+
     <string name="app_name">Password Generator</string>
-    <string name="txt_titulo_main">Senhas principais:</string>
+    <string name="txt_titulo_main">Main Passwords:</string>
     <string name="title_activity_cadastrar_senha">CadastrarSenhaActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -18,16 +24,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-
-    <!--
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="menu_about_page">About</string>
-    <string name="menu_main_passwords">Senhas principais</string>
-    <string name="menu_all_passwords">Todas as senhas</string>
-     -->
-
-
     <!-- RegisterPassword -->
     <string name="title_activity_register_password">Register a new password</string>
     <string name="txt_password_size">Password Size</string>
@@ -40,10 +36,10 @@
     <string name="txt_select_site">Site:</string>
     <string name="default_text">Default text</string>
     <string name="masked_password">*******</string>
-    <string name="hint_senha">Password</string>
-    <string name="hint_email">e-mail</string>
-    <string name="btn_cadastrese">SignUp</string>
-    <string name="hint_nome">Name</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_email">E-mail</string>
+    <string name="sign_up">SignUp</string>
+    <string name="name">Name</string>
     <string name="hint_confirmar_senha">Password confirmation</string>
 
     <!-- MenuItens -->
@@ -57,8 +53,9 @@
     <string name="keep_login">Keep me logged</string>
     <string name="forgot_password">Forgot my password</string>
     <string name="btn_logar">Login</string>
+    <string name="already_have_an_account">I already have an account</string>
     <string name="btn_voltar_login">Back to login screen</string>
-    <string name="btn_abrir_cadastro">Register</string>
+    <string name="register">Register</string>
 
     <!-- EditPassword Activity -->
     <string name="hint_site_name">Site Name</string>
@@ -110,6 +107,7 @@
     <string name="unable_to_retrieve_your_data">Unable to retrieve your data :(</string>
     <string name="swipe_left_to_restore"><![CDATA[<-- Swipe Left to restore]]></string>
     <string name="swipe_right_to_delete"><![CDATA[Swipe Right to delete -->]]></string>
+    <string name="Login">Login</string>
 
 
 </resources>

@@ -10,4 +10,7 @@
     <color name="logo_background">#017dbe</color>
     <color name="logo_background_darker">#004a70</color>
     <color name="link_color">#0645AD</color>
+
+    <color name="primary">#7DF0D5</color>
+    <color name="newLogoBG">#1cbbb4</color>
 </resources>

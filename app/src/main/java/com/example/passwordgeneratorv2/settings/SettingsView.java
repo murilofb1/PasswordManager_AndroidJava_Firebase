@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.passwordgeneratorv2.R;
-import com.example.passwordgeneratorv2.authentication.AuthenticationView;
+import com.example.passwordgeneratorv2.authentication.AuthenticationActivity;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
 import com.example.passwordgeneratorv2.settings.options.AccountInfo;
 import com.example.passwordgeneratorv2.settings.options.DeletedPasswords;
@@ -60,7 +60,7 @@ public class SettingsView extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MyAboutPage.class));
             } else if (v.getId() == R.id.btnLogOut) {
                 FirebaseHelper.signOutUser();
-                startActivity(new Intent(getApplicationContext(), AuthenticationView.class));
+                startActivity(new Intent(getApplicationContext(), AuthenticationActivity.class));
                 finishAffinity();
             } else if (v.getId() == R.id.btnDeletedPasswords) {
                 startActivity(new Intent(getApplicationContext(), DeletedPasswords.class));

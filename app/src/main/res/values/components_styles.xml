@@ -1,3 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="CommonButtonAttr">
+        <item name="cornerRadius">25dp</item>
+        <item name="android:layout_width">match_parent</item>
+
+    </style>
+
+    <style name="Buttons.Authentication.Filled" parent="CommonButtonAttr">
+        <item name="android:layout_height">50dp</item>
+        <item name="backgroundTint">@color/primary</item>
+    </style>
+
+    <style name="Buttons.Authentication.Transparent" parent="CommonButtonAttr">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/purple_500</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>

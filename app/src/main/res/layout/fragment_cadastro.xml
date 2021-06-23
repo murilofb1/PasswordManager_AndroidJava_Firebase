@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/logo_background"
-    tools:context=".authentication.AuthenticationView">
+    tools:context=".authentication.AuthenticationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +22,7 @@
             android:id="@+id/edtNewUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_nome"
+            android:hint="@string/name"
             android:inputType="textCapWords" />
 
         <EditText
@@ -38,7 +37,7 @@
             android:id="@+id/edtNewUserPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_senha"
+            android:hint="@string/hint_password"
             android:inputType="textPassword" />
 
         <EditText
@@ -49,21 +48,24 @@
             android:inputType="textPassword" />
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignUp"
+            style="@style/Buttons.Authentication.Filled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:text="@string/btn_cadastrese" />
+            android:text="@string/sign_up" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_abrir_login"
+            style="@style/Buttons.Authentication.Filled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:text="@string/btn_voltar_login" />
+            android:text="@string/btn_voltar_login"
+            android:visibility="gone" />
 
     </LinearLayout>
 

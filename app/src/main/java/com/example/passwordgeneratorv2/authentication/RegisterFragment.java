@@ -20,7 +20,7 @@ import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
 import com.example.passwordgeneratorv2.models.UserModel;
 
 
-public class CadastroFragment extends Fragment {
+public class RegisterFragment extends Fragment {
     private Button btnAbrirLogin;
     private Button btnSignUp;
     private EditText edtNewUserName;
@@ -28,7 +28,7 @@ public class CadastroFragment extends Fragment {
     private EditText edtNewUserPassword;
     private EditText edtNewUserPassword2;
 
-    public CadastroFragment() {
+    public RegisterFragment() {
         // Required empty public constructor
     }
 
