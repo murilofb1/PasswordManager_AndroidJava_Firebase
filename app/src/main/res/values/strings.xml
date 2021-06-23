@@ -108,6 +108,8 @@
     <string name="edt_password_dialog_title">Confirm alterations</string>
     <string name="edt_password_dialog_message">Are you sure that you want to edit this password</string>
     <string name="unable_to_retrieve_your_data">Unable to retrieve your data :(</string>
+    <string name="swipe_left_to_restore"><![CDATA[<-- Swipe Left to restore]]></string>
+    <string name="swipe_right_to_delete"><![CDATA[Swipe Right to delete -->]]></string>
 
 
 </resources>

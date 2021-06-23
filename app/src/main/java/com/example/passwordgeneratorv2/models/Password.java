@@ -15,6 +15,8 @@ public class Password implements Serializable {
     private boolean favorite = false;
     @Exclude
     long deletedTime = 0;
+    @Exclude
+    int showMenu = 0;
 
     public Password() {
     }
@@ -57,5 +59,13 @@ public class Password implements Serializable {
 
     public long getDeletedTime() {
         return deletedTime;
+    }
+
+    public int getShowMenu() {
+        return showMenu;
+    }
+
+    public void setShowMenu(int showMenu) {
+        this.showMenu = showMenu;
     }
 }

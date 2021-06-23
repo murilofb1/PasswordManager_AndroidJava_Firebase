@@ -63,4 +63,7 @@ dependencies {
     implementation 'androidx.biometric:biometric:1.0.1'
     //Cloud Messaging
     implementation 'com.google.firebase:firebase-messaging'
+    //Recycler Item Decorator
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.3'
+
 }
