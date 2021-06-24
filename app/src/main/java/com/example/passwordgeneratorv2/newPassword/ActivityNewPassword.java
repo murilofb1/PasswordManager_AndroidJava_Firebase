@@ -18,7 +18,6 @@ import android.widget.Spinner;
 
 import android.widget.TextView;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -27,11 +26,16 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.passwordgeneratorv2.R;
 import com.example.passwordgeneratorv2.adapters.AdapterSpinnerSites;
+import com.example.passwordgeneratorv2.databinding.ActivityNewPasswordBinding;
 import com.example.passwordgeneratorv2.helpers.Base64H;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
-import com.example.passwordgeneratorv2.helpers.PassworGenerator;
+import com.example.passwordgeneratorv2.helpers.PasswordGenerator;
+import com.example.passwordgeneratorv2.helpers.ToastH;
 import com.example.passwordgeneratorv2.models.Password;
 import com.example.passwordgeneratorv2.models.WebsiteModel;
+import com.google.android.material.slider.Slider;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,7 +43,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 
-public class CadastrarSenhaView extends AppCompatActivity implements Observer {
+public class ActivityNewPassword extends AppCompatActivity implements Observer {
     //CONSTANTS
     private final static int REQUEST_OPEN_GALLERY = 1;
     // Interface
@@ -50,7 +54,7 @@ public class CadastrarSenhaView extends AppCompatActivity implements Observer {
     private TextView txtQtdSpecialChar;
     private TextView txtQtdPasswordSize;
     private TextView txtCustomItemHint;
-    private SeekBar seekLowerCase;
+    //private SeekBar seekLowerCase;
     private SeekBar seekUpperCase;
     private SeekBar seekSpecialChar;
     private SeekBar seekPasswordSize;
@@ -64,41 +68,43 @@ public class CadastrarSenhaView extends AppCompatActivity implements Observer {
     private Uri customImageUri;
     //Adapter
     private ArrayList<WebsiteModel> sitesList;
-    private CadastrarSenhaViewModel cadastrarSenha;
+    private NewPasswordViewModel cadastrarSenha;
     public static AdapterSpinnerSites sitesAdapter;
 
-    private PassworGenerator psswdGenerator;
+    private PasswordGenerator psswdGenerator;
 
-    //Observer¿?
     private boolean maxSeekBarValue;
 
+    private ActivityNewPasswordBinding binding;
+    private ToastH toastH;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastrar_senha);
+        toastH = new ToastH(this);
+        binding = ActivityNewPasswordBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         initializeComponents();
         setDefaultValues();
         updateValues();
         setChangeListeners();
         setClickListener();
-        configurarSpinner();
+        configureSpinner();
 
-        setSupportActionBar(toolbarCadastro);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-
+    public boolean onSupportNavigateUp() {
+        finish();
+        return false;
     }
 
     //Settar todos os findViewById
     private void initializeComponents() {
         //Edit Text
-        edtSenhaGerada = findViewById(R.id.edt_senha_gerada);
+        edtSenhaGerada = findViewById(R.id.edtGeneratedPassword);
         edtNewSiteLink = findViewById(R.id.newSiteLink);
         //TextView
         txtQtdLowerCase = findViewById(R.id.txt_qtde_lower_case);
@@ -107,7 +113,7 @@ public class CadastrarSenhaView extends AppCompatActivity implements Observer {
         txtQtdPasswordSize = findViewById(R.id.txt_qtde_password_size);
         //txtCustomItemHint = findViewById(R.id.txt_custom_item_hint);
         //SeekBar
-        seekLowerCase = findViewById(R.id.seek_lower_cases);
+        //seekLowerCase = findViewById(R.id.sliderLowerCases);
         seekUpperCase = findViewById(R.id.seek_upper_cases);
         seekSpecialChar = findViewById(R.id.seek_special_char);
         seekPasswordSize = findViewById(R.id.seek_password_size);
@@ -117,18 +123,18 @@ public class CadastrarSenhaView extends AppCompatActivity implements Observer {
         toolbarCadastro = findViewById(R.id.toolbar_cadastro);
         //Button
         btnShuflle = findViewById(R.id.btn_shuffle_password);
-        btnCadastrar = findViewById(R.id.btn_confirm);
+        btnCadastrar = findViewById(R.id.btnRegisterPassword);
         //CadastrarSenhaViewModel
-        cadastrarSenha = new CadastrarSenhaViewModel();
+        cadastrarSenha = new NewPasswordViewModel();
         cadastrarSenha.addObserver(this);
         //List<password>
         sitesList = cadastrarSenha.getSpinnerPasswordList();
         //AdapterSpinnerSites
-        sitesAdapter = new AdapterSpinnerSites(CadastrarSenhaView.this, sitesList);
+        sitesAdapter = new AdapterSpinnerSites(ActivityNewPassword.this, sitesList);
     }
 
     //void de teste para spinner personalizado
-    private void configurarSpinner() {
+    private void configureSpinner() {
         spinnerSiteSelected.setAdapter(sitesAdapter);
         spinnerSiteSelected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -149,32 +155,36 @@ public class CadastrarSenhaView extends AppCompatActivity implements Observer {
     //Settar os valores padrões da classe PasswordGenerator nos seekbar
     private void setDefaultValues() {
         //SeekBar
-        seekPasswordSize.setProgress(new PassworGenerator().passwordSize);
-        seekLowerCase.setProgress(new PassworGenerator().lowerCaseSize);
-        seekUpperCase.setProgress(new PassworGenerator().upperCaseSize);
-        seekSpecialChar.setProgress(new PassworGenerator().specialCharSize);
+        seekPasswordSize.setProgress(new PasswordGenerator().passwordSize);
+        //  seekLowerCase.setProgress(new PasswordGenerator().lowerCaseSize);
+        binding.sliderLowerCases.setValue(new PasswordGenerator().lowerCaseSize);
+        seekUpperCase.setProgress(new PasswordGenerator().upperCaseSize);
+        seekSpecialChar.setProgress(new PasswordGenerator().specialCharSize);
         //EditText
-        edtSenhaGerada.setText(new PassworGenerator().generatePassword());
+        edtSenhaGerada.setText(new PasswordGenerator().generatePassword());
     }
 
     private void updateValues() {
         //SeekBar
-        seekLowerCase.setMax(seekPasswordSize.getProgress());
+        // seekLowerCase.setMax(seekPasswordSize.getProgress());
+        binding.sliderLowerCases.setValueTo(seekPasswordSize.getProgress());
         seekUpperCase.setMax(seekPasswordSize.getProgress());
         seekSpecialChar.setMax(seekPasswordSize.getProgress());
         //TextView
-        txtQtdLowerCase.setText(String.valueOf(seekLowerCase.getProgress()));
+        // txtQtdLowerCase.setText(String.valueOf(seekLowerCase.getProgress()));
+        txtQtdLowerCase.setText(String.valueOf(binding.sliderLowerCases.getValue()));
         txtQtdUpperCase.setText(String.valueOf(seekUpperCase.getProgress()));
         txtQtdSpecialChar.setText(String.valueOf(seekSpecialChar.getProgress()));
         txtQtdPasswordSize.setText(String.valueOf(seekPasswordSize.getProgress()));
         //EditText
-        int intLowerCase = seekLowerCase.getProgress();
+        //int intLowerCase = seekLowerCase.getProgress();
+        int intLowerCase = (int) binding.sliderLowerCases.getValue();
         int intPasswordSize = seekPasswordSize.getProgress();
         int intUpperCase = seekUpperCase.getProgress();
         int intSpecialChar = seekSpecialChar.getProgress();
 
         if (!maxSeekBarValue) {
-            psswdGenerator = new PassworGenerator(intPasswordSize, intLowerCase, intUpperCase, intSpecialChar);
+            psswdGenerator = new PasswordGenerator(intPasswordSize, intLowerCase, intUpperCase, intSpecialChar);
             edtSenhaGerada.setText(psswdGenerator.generatePassword());
         }
     }
@@ -185,7 +195,8 @@ public class CadastrarSenhaView extends AppCompatActivity implements Observer {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                int intLowerCase = seekLowerCase.getProgress();
+                //int intLowerCase = seekLowerCase.getProgress();
+                int intLowerCase = (int) binding.sliderLowerCases.getValue();
                 int intPasswordSize = seekPasswordSize.getProgress();
                 int intUpperCase = seekUpperCase.getProgress();
                 int intSpecialChar = seekSpecialChar.getProgress();
@@ -195,6 +206,10 @@ public class CadastrarSenhaView extends AppCompatActivity implements Observer {
                 if (charSum > intPasswordSize) {
                     if (seekBar.getId() != R.id.seek_password_size) {
                         seekBar.setProgress(seekBar.getProgress() - 1);
+                        if (binding.sliderLowerCases.getValue() >0){
+                            binding.sliderLowerCases.setValue(binding.sliderLowerCases.getValue() - 1);
+                        }
+
                     } else {
                         maxSeekBarValue = false;
                         updateValues();
@@ -221,7 +236,30 @@ public class CadastrarSenhaView extends AppCompatActivity implements Observer {
 
             }
         };
-        seekLowerCase.setOnSeekBarChangeListener(listener);
+        //seekLowerCase.setOnSeekBarChangeListener(listener);
+        binding.sliderLowerCases.addOnChangeListener(new Slider.OnChangeListener() {
+            @Override
+            public void onValueChange(@NonNull @NotNull Slider slider, float value, boolean fromUser) {
+                //int intLowerCase = seekLowerCase.getProgress();
+                int intLowerCase = (int) binding.sliderLowerCases.getValue();
+                int intPasswordSize = seekPasswordSize.getProgress();
+                int intUpperCase = seekUpperCase.getProgress();
+                int intSpecialChar = seekSpecialChar.getProgress();
+                int charSum = intSpecialChar + intLowerCase + intUpperCase;
+
+
+                if (charSum > intPasswordSize) {
+                    slider.setValue(slider.getValue() - 1);
+                } else if (charSum == intPasswordSize) {
+                    updateValues();
+                    maxSeekBarValue = true;
+                } else {
+                    maxSeekBarValue = false;
+                    updateValues();
+                }
+
+            }
+        });
         seekUpperCase.setOnSeekBarChangeListener(listener);
         seekSpecialChar.setOnSeekBarChangeListener(listener);
         seekPasswordSize.setOnSeekBarChangeListener(listener);
@@ -229,24 +267,24 @@ public class CadastrarSenhaView extends AppCompatActivity implements Observer {
 
     //Settar ClickListener para todos os componentes
     private void setClickListener() {
-        View.OnClickListener clickListener = v -> {
-            // Botão Embaralhar
-            if (v.getId() == R.id.btn_shuffle_password) {
-                edtSenhaGerada.setText(psswdGenerator.shufflePassword());
-                // Botão Confirmar
-            } else if (v.getId() == R.id.btn_confirm) {
-                WebsiteModel spinnerItem = (WebsiteModel) spinnerSiteSelected.getSelectedItem();
-                String newPsswd = Base64H.encode(edtSenhaGerada.getText().toString());
-                String newIconLink = spinnerItem.getIconLink();
-                String newSiteName = spinnerItem.getName();
-                String newSiteLink = edtNewSiteLink.getText().toString();
-                Password newPassword = new Password(newSiteName, newPsswd, newIconLink, newSiteLink);
-                FirebaseHelper.registerSenha(newPassword, CadastrarSenhaView.this);
-            }
-        };
+        binding.btnRegisterPassword.setOnClickListener(view -> {
+            WebsiteModel spinnerItem = (WebsiteModel) spinnerSiteSelected.getSelectedItem();
+            String newPsswd = Base64H.encode(edtSenhaGerada.getText().toString());
+            String newIconLink = spinnerItem.getIconLink();
+            String newSiteName = spinnerItem.getName();
+            String newSiteLink = edtNewSiteLink.getText().toString();
+            Password newPassword = new Password(newSiteName, newPsswd, newIconLink, newSiteLink);
+            FirebaseHelper.registerPassword(newPassword, ActivityNewPassword.this);
+        });
 
-        btnCadastrar.setOnClickListener(clickListener);
-        btnShuflle.setOnClickListener(clickListener);
+        binding.tilGeneratedPassword.setEndIconOnLongClickListener(v -> {
+            toastH.showToast(getString(R.string.shuffle_password));
+            return true;
+        });
+
+        binding.tilGeneratedPassword.setEndIconOnClickListener(v -> {
+            edtSenhaGerada.setText(psswdGenerator.shufflePassword());
+        });
     }
 
     private void showDialog() {
@@ -262,7 +300,7 @@ public class CadastrarSenhaView extends AppCompatActivity implements Observer {
         });
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(CadastrarSenhaView.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityNewPassword.this);
         builder.setTitle("New item");
         builder.setView(dialogLayout);
         builder.setPositiveButton("Confirm", (dialog, which) -> {
@@ -305,7 +343,7 @@ public class CadastrarSenhaView extends AppCompatActivity implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg.equals(CadastrarSenhaViewModel.SPINNER_LIST_ARG)) {
+        if (arg.equals(NewPasswordViewModel.SPINNER_LIST_ARG)) {
             sitesAdapter.notifyDataSetChanged();
         }
     }

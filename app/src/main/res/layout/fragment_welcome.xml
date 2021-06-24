@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/newLogoBG"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -21,12 +20,12 @@
         android:textSize="30sp" />
 
     <com.google.android.material.button.MaterialButton
-        style="@style/Buttons.Authentication.Filled"
+        style="@style/Button.Filled"
         android:id="@+id/btnGoToRegistration"
         android:text="@string/register" />
 
     <com.google.android.material.button.MaterialButton
-        style="@style/Buttons.Authentication.Transparent"
+        style="@style/Button.Transparent"
         android:id="@+id/btnGoToLogin"
         android:text="@string/already_have_an_account" />
 

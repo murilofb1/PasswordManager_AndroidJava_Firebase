@@ -1,5 +1,6 @@
 package com.example.passwordgeneratorv2.settings.options;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
@@ -71,13 +73,6 @@ public class AccountInfo extends AppCompatActivity {
         } else {
             btnSettingsUserName.setText(userModel.getName());
             btnSettingsUserEmail.setText(userModel.getEmail());
-            if (!AdapterPasswords.isUnlocked()) {
-                btnSettingsUserPassword.setText(AdapterPasswords.maskedPassword(userModel.getPassword()));
-            } else {
-                btnSettingsUserPassword.setText(Base64H.decode(userModel.getPassword()));
-
-            }
-
         }
 
     }
@@ -124,7 +119,6 @@ public class AccountInfo extends AppCompatActivity {
                 } else {
                     FirebaseHelper.editPassword(Base64H.encode(editText.getText().toString()));
                     btnSettingsUserPassword.setText(editText.getText().toString());
-                    UserModel.updateUserPassword(Base64H.encode(editText.getText().toString()));
                 }
             } else if (editField == DIALOG_EDIT_NAME) {
                 if (editText.getText().toString().equals("")) {
@@ -173,6 +167,7 @@ public class AccountInfo extends AppCompatActivity {
         btnDeleteAccount.setOnClickListener(clickListener);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     private void openBiometric() {
         Executor executor = getMainExecutor();
         BiometricPrompt biometricPrompt;

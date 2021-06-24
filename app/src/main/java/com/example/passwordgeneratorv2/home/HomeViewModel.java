@@ -38,7 +38,6 @@ public class HomeViewModel extends Observable {
                         Password password = item.getValue(Password.class);
                         passwordList.add(password);
                     }
-                    Log.i("HomeViewStatus", "GEROU A LISTA");
                     notifyChange(ARG_PASSWORD_LIST);
                 }
 

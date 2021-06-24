@@ -30,18 +30,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.passwordgeneratorv2.R;
-import com.example.passwordgeneratorv2.authentication.LoginFragment;
 import com.example.passwordgeneratorv2.editPassword.EditPasswordView;
 import com.example.passwordgeneratorv2.helpers.Base64H;
 import com.example.passwordgeneratorv2.models.Password;
 import com.example.passwordgeneratorv2.models.UserModel;
-import com.example.passwordgeneratorv2.newPassword.CadastrarSenhaView;
+import com.example.passwordgeneratorv2.newPassword.ActivityNewPassword;
 import com.example.passwordgeneratorv2.adapters.AdapterPasswords;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
-import com.example.passwordgeneratorv2.settings.SettingsView;
+import com.example.passwordgeneratorv2.settings.SettingsActivity;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -194,7 +192,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterPasswords.
     private void setClickListeners() {
         View.OnClickListener clickListener = v -> {
             if (v.getId() == R.id.fabAdicionarSenha) {
-                Intent intentCadastrarSenha = new Intent(this, CadastrarSenhaView.class);
+                Intent intentCadastrarSenha = new Intent(this, ActivityNewPassword.class);
                 startActivity(intentCadastrarSenha);
             }
         };
@@ -219,7 +217,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterPasswords.
                 openBiometricAuth();
             }
         } else if (item.getItemId() == R.id.menuSettings) {
-            Intent i = new Intent(this, SettingsView.class);
+            Intent i = new Intent(this, SettingsActivity.class);
             startActivity(i);
         }
         return super.onOptionsItemSelected(item);

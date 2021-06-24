@@ -1,11 +1,11 @@
 package com.example.passwordgeneratorv2.models;
 
-import androidx.annotation.Nullable;
 
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Password implements Serializable {
     private String site;
@@ -19,6 +19,16 @@ public class Password implements Serializable {
     int showMenu = 0;
 
     public Password() {
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> userMap = new HashMap();
+        userMap.put("site", site);
+        userMap.put("password", site);
+        userMap.put("iconLink", site);
+        userMap.put("siteLink", site);
+        userMap.put("favorite", false);
+        return userMap;
     }
 
     public Password(String site, String password, String iconLink, String siteLink) {

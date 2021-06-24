@@ -114,7 +114,6 @@ public class AdapterPasswords extends RecyclerView.Adapter<AdapterPasswords.MyVi
     public void updateVisibleArray(int newSize) {
         visiblePassword = new boolean[newSize];
         visiblePassword = ArrayHelper.setAll(visiblePassword, false);
-
     }
 
 

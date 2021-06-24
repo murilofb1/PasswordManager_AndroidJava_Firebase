@@ -1,8 +1,9 @@
 <resources>
-    <string name="edt_text_all_empty">"Fill all the fields first"</string>
-    <string name="edt_text_password_empty">"Fill your password first"</string>
-    <string name="edt_text_email_empty">"Fill your e-mail first"</string>
-    <string name="login_error_generic">"Error on logging in"</string>
+    <string name="fill_all_the_fields_first">Fill all the fields first</string>
+    <string name="fill_your_password_first">"Fill your password first"</string>
+    <string name="fill_your_password_confirmation_first">The password confirmation can\'t be empty</string>
+    <string name="fill_your_email_first">Fill your e-mail first</string>
+    <string name="login_error_generic">Error on logging in</string>
 
 
     <string name="app_name">Password Generator</string>
@@ -30,7 +31,7 @@
     <string name="txt_upper_case_size">Number of uppercase letters</string>
     <string name="txt_low_case_size">Number of lowercase letters</string>
     <string name="txt_special_char_size">Number of special characters</string>
-    <string name="btn_shuffle_password">Shuffle</string>
+    <string name="shuffle_password">Shuffle Password</string>
     <string name="btn_cadastrar_senha">Register</string>
 
     <string name="txt_select_site">Site:</string>
@@ -40,7 +41,7 @@
     <string name="hint_email">E-mail</string>
     <string name="sign_up">SignUp</string>
     <string name="name">Name</string>
-    <string name="hint_confirmar_senha">Password confirmation</string>
+    <string name="password_confirmation">Password confirmation</string>
 
     <!-- MenuItens -->
     <string name="menu_lockunlock">LockUnlock</string>
@@ -108,6 +109,8 @@
     <string name="swipe_left_to_restore"><![CDATA[<-- Swipe Left to restore]]></string>
     <string name="swipe_right_to_delete"><![CDATA[Swipe Right to delete -->]]></string>
     <string name="Login">Login</string>
+    <string name="passwords_dont_match">The passwords don\'t match</string>
+    <string name="your_password">Your password</string>
 
 
 </resources>

@@ -15,7 +15,7 @@
         android:theme="@style/MainTheme">
         <activity
             android:name=".authentication.AuthenticationActivity"
-            android:theme="@style/MainTheme.AuthActivity"
+            android:theme="@style/MainTheme.NoActionBar"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,21 +29,16 @@
             android:name=".editPassword.EditPasswordView"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".newPassword.CadastrarSenhaView"
+            android:name=".newPassword.ActivityNewPassword"
             android:label="@string/title_activity_cadastrar_senha"
-            android:screenOrientation="portrait"
-            android:theme="@style/MainTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".settings.SettingsView"
+            android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait" />
         <activity
             android:name=".settings.options.AccountInfo"
             android:label="@string/title_activity_account_info"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".settings.options.MyAboutPage"
-            android:label="@string/title_activity_developer_info"
             android:screenOrientation="portrait" />
         <activity
             android:name=".settings.options.DeletedPasswords"

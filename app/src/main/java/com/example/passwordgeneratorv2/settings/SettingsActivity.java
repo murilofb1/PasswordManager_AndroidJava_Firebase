@@ -16,10 +16,9 @@ import com.example.passwordgeneratorv2.authentication.AuthenticationActivity;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
 import com.example.passwordgeneratorv2.settings.options.AccountInfo;
 import com.example.passwordgeneratorv2.settings.options.DeletedPasswords;
-import com.example.passwordgeneratorv2.settings.options.MyAboutPage;
 
 
-public class SettingsView extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     private Button btnDataInfo;
     private Button btnLogOut;
@@ -56,9 +55,8 @@ public class SettingsView extends AppCompatActivity {
         View.OnClickListener clickListener = v -> {
             if (v.getId() == R.id.btnDataInfo) {
                 startActivity(new Intent(getApplicationContext(), AccountInfo.class));
-            } else if (v.getId() == R.id.btnAboutPage) {
-                startActivity(new Intent(getApplicationContext(), MyAboutPage.class));
-            } else if (v.getId() == R.id.btnLogOut) {
+            }
+            else if (v.getId() == R.id.btnLogOut) {
                 FirebaseHelper.signOutUser();
                 startActivity(new Intent(getApplicationContext(), AuthenticationActivity.class));
                 finishAffinity();

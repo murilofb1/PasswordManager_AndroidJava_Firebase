@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 
-public class CadastrarSenhaViewModel extends Observable {
+public class NewPasswordViewModel extends Observable {
     private ArrayList<Password> spinnerPasswordList = new ArrayList<>();
     private ArrayList<WebsiteModel> modelsList = new ArrayList<>();
     private ValueEventListener spinnerEventListener;

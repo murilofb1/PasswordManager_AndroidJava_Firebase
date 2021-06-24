@@ -1,14 +1,11 @@
 package com.example.passwordgeneratorv2.helpers;
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class PassworGenerator {
+public class PasswordGenerator {
     private String[] lowerCases = {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "l", "k", "j", "h", "g", "f", "d", "s", "a", "z", "x", "c", "v", "b", "n", "m"};
     private String[] upperCases = {"Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "L", "K", "J", "H", "G", "F", "D", "S", "A", "Z", "X", "C", "V", "B", "N", "M"};
     private String[] specialChar = {"#", "$", "!", "@", "%", "&", "*", "_", "-", "+", ",", ".", "<", ">", ":", "?"};
@@ -17,7 +14,7 @@ public class PassworGenerator {
 
     boolean verifyInstance = false;
 
-    List<String> passWordItens = new ArrayList<>();
+    List<String> passwordItems = new ArrayList<>();
 
 
     public int passwordSize = 8;
@@ -27,11 +24,11 @@ public class PassworGenerator {
     public int numberSize = 4;
 
 
-    public PassworGenerator() {
+    public PasswordGenerator() {
 
     }
 
-    public PassworGenerator(int passwordSize, int lowerCaseSize, int upperCaseSize, int specialCharSize) {
+    public PasswordGenerator(int passwordSize, int lowerCaseSize, int upperCaseSize, int specialCharSize) {
         int sum = lowerCaseSize + upperCaseSize + specialCharSize;
         this.passwordSize = passwordSize;
         this.lowerCaseSize = lowerCaseSize;
@@ -44,9 +41,9 @@ public class PassworGenerator {
     public String generatePassword() {
         generateChars();
         String finalPsswd = "";
-        Collections.shuffle(passWordItens);
-        for (String charitem : passWordItens) {
-            finalPsswd += charitem;
+        Collections.shuffle(passwordItems);
+        for (String charItem : passwordItems) {
+            finalPsswd += charItem;
         }
 
         return finalPsswd;
@@ -54,32 +51,32 @@ public class PassworGenerator {
 
     public String shufflePassword() {
         String finalPsswd = "";
-        Collections.shuffle(passWordItens);
-        for (String charitem : passWordItens) {
-            finalPsswd += charitem;
+        Collections.shuffle(passwordItems);
+        for (String charItem : passwordItems) {
+            finalPsswd += charItem;
         }
 
         return finalPsswd;
     }
 
     private void generateChars() {
-        passWordItens.clear();
+        passwordItems.clear();
 
         for (int i = 0; i < lowerCaseSize; i++) {
             int rng = new Random().nextInt(lowerCases.length);
-            passWordItens.add(lowerCases[rng]);
+            passwordItems.add(lowerCases[rng]);
         }
         for (int i = 0; i < upperCaseSize; i++) {
             int rng = new Random().nextInt(upperCases.length);
-            passWordItens.add(upperCases[rng]);
+            passwordItems.add(upperCases[rng]);
         }
         for (int i = 0; i < specialCharSize; i++) {
             int rng = new Random().nextInt(specialChar.length);
-            passWordItens.add(specialChar[rng]);
+            passwordItems.add(specialChar[rng]);
         }
         for (int i = 0; i < numberSize; i++) {
             int rng = new Random().nextInt(10);
-            passWordItens.add(String.valueOf(rng));
+            passwordItems.add(String.valueOf(rng));
         }
 
     }

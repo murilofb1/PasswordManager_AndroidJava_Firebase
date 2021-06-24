@@ -1,25 +1,21 @@
 package com.example.passwordgeneratorv2.helpers
 
-import android.app.Activity
+import android.content.Context
 import android.widget.Toast
 
 
 //AppCompatActivity can be replaced by Activity
-class ToastH(var activity: Activity) {
+class ToastH(var context: Context) {
     private var toast: Toast
 
     init {
-        toast = Toast(activity.applicationContext)
+        toast = Toast(context)
     }
 
     fun showToast(message: String) {
         if (message.isNotEmpty()) {
             toast.cancel()
-            toast = Toast.makeText(
-                activity.applicationContext,
-                message,
-                Toast.LENGTH_SHORT
-            )
+            toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
             toast.show()
         }
     }

@@ -2,6 +2,7 @@ package com.example.passwordgeneratorv2.settings.options;
 
 
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
@@ -26,13 +28,7 @@ import com.example.passwordgeneratorv2.adapters.AdapterPasswords;
 import com.example.passwordgeneratorv2.helpers.FirebaseHelper;
 import com.example.passwordgeneratorv2.models.Password;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.Executor;
@@ -42,7 +38,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 public class DeletedPasswords extends AppCompatActivity implements Observer {
     private RecyclerView recyclerDeletedPasswords;
-    private DeletedPasswordsHelper deletedHelper;
+    private DeletedPasswordsViewModel deletedHelper;
     private AdapterDeletedPasswords adapterPasswords;
     private MenuItem menuLockUnlock;
     private Password deletedPassword = null;
@@ -57,7 +53,7 @@ public class DeletedPasswords extends AppCompatActivity implements Observer {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toast = new Toast(this);
-        deletedHelper = new DeletedPasswordsHelper();
+        deletedHelper = new DeletedPasswordsViewModel();
 
         deletedHelper.addObserver(this);
         deletedHelper.loadList();
@@ -99,6 +95,7 @@ public class DeletedPasswords extends AppCompatActivity implements Observer {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -115,7 +112,7 @@ public class DeletedPasswords extends AppCompatActivity implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg.equals(DeletedPasswordsHelper.ARG_LIST_UPDATE)) {
+        if (arg.equals(DeletedPasswordsViewModel.ARG_LIST_UPDATE)) {
             adapterPasswords.notifyDataSetChanged();
         }
     }
@@ -126,6 +123,7 @@ public class DeletedPasswords extends AppCompatActivity implements Observer {
         adapterPasswords.notifyDataSetChanged();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     public void unlockPasswords() {
         BiometricPrompt biometricPrompt;
         BiometricPrompt.PromptInfo promptInfo;
@@ -268,43 +266,3 @@ public class DeletedPasswords extends AppCompatActivity implements Observer {
     }
 }
 
-class DeletedPasswordsHelper extends Observable {
-    private List<Password> passwordList = new ArrayList<>();
-    private DatabaseReference deletedReference = FirebaseHelper.getUserDatabaseReference().child("deletedPasswords");
-    private ValueEventListener listenerDeletedPasswords;
-    public static int ARG_LIST_UPDATE = 0;
-
-    public List<Password> getPasswordList() {
-        return passwordList;
-    }
-
-    public void loadList() {
-        listenerDeletedPasswords = deletedReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                passwordList.clear();
-                for (DataSnapshot item : snapshot.getChildren()) {
-                    passwordList.add(item.getValue(Password.class));
-                }
-                notifyUpdates(ARG_LIST_UPDATE);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    public void removeListener() {
-        deletedReference.removeEventListener(listenerDeletedPasswords);
-    }
-
-
-    private void notifyUpdates(Object arg) {
-        setChanged();
-        notifyObservers(arg);
-    }
-
-
-}

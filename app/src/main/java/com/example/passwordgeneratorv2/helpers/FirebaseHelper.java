@@ -111,21 +111,6 @@ public class FirebaseHelper {
         return dataReference;
     }
 
-    public static void registerUser(UserModel userModel, Activity activity) {
-        getFirebaseAuth().createUserWithEmailAndPassword(userModel.getEmail(), userModel.getPassword()).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                String[] separatedName = userModel.getName().split(" ");
-                Toast.makeText(activity, "Welcome! " + separatedName[0], Toast.LENGTH_SHORT).show();
-                getUserDataReference().setValue(userModel);
-                Intent i = new Intent(activity.getApplicationContext(), HomeActivity.class);
-                activity.startActivity(i);
-                activity.finish();
-            } else {
-                Toast.makeText(activity, "Something went wrong :(", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     public static void deletePassword(Password password) {
         getUserDatabaseReference().child("deletedPasswords").child(password.getSite()).setValue(password);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -165,7 +150,7 @@ public class FirebaseHelper {
     }
 
     // passar tabmém a activity para poder fechar a mesma quando a senha for cadastrada com sucesso
-    public static void registerSenha(Password password, Activity activity) {
+    public static void registerPassword(Password password, Activity activity) {
         getUserPasswordsReference()
                 .child(password.getSite())
                 .setValue(password)

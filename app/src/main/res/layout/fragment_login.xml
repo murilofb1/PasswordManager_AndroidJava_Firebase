@@ -56,14 +56,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnOpenRegister"
-            style="@style/Buttons.Authentication.Filled"
+            style="@style/Button.Filled"
             android:layout_marginTop="10dp"
             android:text="@string/register"
             android:visibility="gone" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogin"
-            style="@style/Buttons.Authentication.Filled"
+            style="@style/Button.Filled"
             android:text="@string/Login" />
 
         <com.google.android.material.button.MaterialButton

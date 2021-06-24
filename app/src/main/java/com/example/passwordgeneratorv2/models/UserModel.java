@@ -13,18 +13,15 @@ import com.google.firebase.database.ValueEventListener;
 public class UserModel {
     private String name;
     private String email;
-    private String password;
-    @Exclude
     public static UserModel currentUser;
 
     public UserModel() {
 
     }
 
-    public UserModel(String name, String email, String password) {
+    public UserModel(String name, String email) {
         this.name = name;
         this.email = email;
-        this.password = password;
     }
 
     public String getName() {
@@ -35,30 +32,19 @@ public class UserModel {
         return email;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     @Exclude
     public static void loadCurretUser() {
         FirebaseHelper.getUserDataReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                currentUser = snapshot.getValue(UserModel.class);
-                Log.i("userData", "loaded");
-            }
+            public void onDataChange(@NonNull DataSnapshot snapshot) { currentUser = snapshot.getValue(UserModel.class); }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
 
-    public static UserModel getCurrentUser() {
-        Log.i("userData", "getted");
-        return currentUser;
-    }
+    public static UserModel getCurrentUser() { return currentUser; }
 
     public static void updateUserName(String name) {
         currentUser.name = name;
@@ -68,7 +54,4 @@ public class UserModel {
         currentUser.email = email;
     }
 
-    public static void updateUserPassword(String password) {
-        currentUser.password = password;
-    }
 }

@@ -10,11 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.passwordgeneratorv2.firebase.FirebaseAuth;
+import com.example.passwordgeneratorv2.firebase.FirebaseAuthentication;
 import com.example.passwordgeneratorv2.R;
-import com.example.passwordgeneratorv2.databinding.ActivityAuthenticationBinding;
 import com.example.passwordgeneratorv2.home.HomeActivity;
 
 public class AuthenticationActivity extends AppCompatActivity {
@@ -23,7 +21,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        FirebaseAuth auth = new FirebaseAuth();
+        FirebaseAuthentication auth = new FirebaseAuthentication();
         if (auth.isSomeoneLogged()) skipScreen();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
@@ -45,7 +43,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         currentFragment = fragment;
     }
 
-    private void skipScreen() {
+    protected void skipScreen() {
         startActivity(new Intent(this, HomeActivity.class));
         finish();
     }
